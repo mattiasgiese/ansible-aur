@@ -25,7 +25,9 @@ def install_packages(module, package_name, tool):
     assert tool in TOOL_TO_INSTALL_CMD_MAP
 
     cmd = TOOL_TO_INSTALL_CMD_MAP[tool] + [package_name]
-    module.run_command(cmd, check_rc=True)
+    # HACK HACK HACK: Push perl path /usr/bin/core_perl/ to PATH
+    # Otherwise, building manpages with pod2man fails
+    module.run_command(cmd, check_rc=True,path_prefix='/usr/bin/core_perl')
 
     module.exit_json(
         changed=True,

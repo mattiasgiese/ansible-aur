@@ -4,6 +4,7 @@ from ansible.module_utils.basic import *
 
 
 TOOL_CMD_MAP = {
+    'trizen': ['env', 'EDITOR=cat', 'trizen', '--noconfirm', '--noedit'],
     'pacaur': ['env', 'EDITOR=cat', 'pacaur', '--noconfirm', '--noedit'],
     'yaourt': ['yaourt', '--noconfirm'],
 }
@@ -46,7 +47,7 @@ def install_packages(module, package_name, tool, update, auronly):
     cmd = TOOL_TO_INSTALL_CMD_MAP[tool] + [package_name]
     # HACK HACK HACK: Push perl path /usr/bin/core_perl/ to PATH
     # Otherwise, building manpages with pod2man fails
-    module.run_command(cmd, check_rc=True,path_prefix='/usr/bin/core_perl')
+    module.run_command(cmd, check_rc=True, path_prefix='/usr/bin/core_perl')
     module.exit_json(
         changed=True,
         msg='installed package',
@@ -88,8 +89,8 @@ def main():
                 'choices': ['present', 'absent'],
             },
             'tool': {
-                'default': 'pacaur',
-                'choices': ['pacaur', 'yaourt'],
+                'default': 'trizen',
+                'choices': ['trizen', 'pacaur', 'yaourt'],
             },
             'recurse': {
                 'default': True,

@@ -4,6 +4,7 @@ from ansible.module_utils.basic import *
 
 
 TOOL_TO_INSTALL_CMD_MAP = {
+    'trizen': ['trizen', '--noconfirm', '--noedit', '-S'],
     'pacaur': ['pacaur', '--noconfirm', '--noedit', '-S'],
     'yaourt': ['yaourt', '--noconfirm', '-S'],
 }
@@ -68,8 +69,8 @@ def main():
                 'choices': ['present', 'absent'],
             },
             'tool': {
-                'default': 'pacaur',
-                'choices': ['pacaur', 'yaourt'],
+                'default': 'trizen',
+                'choices': ['trizen', 'pacaur', 'yaourt'],
             },
             'recurse': {
                 'default': True,
